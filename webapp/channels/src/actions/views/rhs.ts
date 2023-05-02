@@ -34,11 +34,12 @@ import {getPostsByIds, getPost as fetchPost} from 'mattermost-redux/actions/post
 
 import {getChannel} from 'mattermost-redux/actions/channels';
 
-function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
+function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState ) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const postRootId = Utils.getRootId(post);
         await dispatch(PostActions.getPostThread(postRootId));
         const state = getState() as GlobalState;
+        console.log(window.pageYOffset)
 
         dispatch({
             type: ActionTypes.SELECT_POST,
@@ -46,7 +47,10 @@ function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previous
             channelId: post.channel_id,
             previousRhsState: previousRhsState || getRhsState(state),
             timestamp: Date.now(),
+            scrollPosition: scrollY,
         });
+       // console.log("data is"+JSON.stringify(state))
+    
 
         return {data: true};
     };
@@ -101,11 +105,18 @@ export function openShowEditHistory(post: Post) {
         timestamp: Date.now(),
     };
 }
+//      wwwwww
+//      wwwwww
+//      wwwwww
+//      wwwwww
+//      wwwwww
 
 export function goBack() {
+    console.log("this is back :3")
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
         const defaultTab = 'channel-info';
+        console.log("prevState   "+prevState)
 
         dispatch({
             type: ActionTypes.RHS_GO_BACK,
@@ -114,13 +125,18 @@ export function goBack() {
 
         return {data: true};
     };
+   
 }
 
-export function selectPostFromRightHandSideSearch(post: Post) {
+export function selectPostFromRightHandSideSearch(post: Post ) {
+    console.log("this is selectPost")
+    console.log(window.pageYOffset)
     return selectPostFromRightHandSideSearchWithPreviousState(post);
+
 }
 
 export function selectPostCardFromRightHandSideSearch(post: Post) {
+    console.log("this i Card selectPost")
     return selectPostCardFromRightHandSideSearchWithPreviousState(post);
 }
 
@@ -192,6 +208,7 @@ export function filterFilesSearchByExt(extensions: string[]) {
 }
 
 export function showSearchResults(isMentionSearch = false) {
+    console.log("ïm showing eli yji");
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
@@ -499,6 +516,7 @@ export function selectPost(post: Post) {
         postId: post.root_id || post.id,
         channelId: post.channel_id,
         timestamp: Date.now(),
+        scrollPosition: window.pageYOffset,
     };
 }
 

@@ -93,8 +93,14 @@ export const getSelectedPost = createSelector(
 export function getRhsState(state: GlobalState): RhsState {
     return state.views.rhs.rhsState;
 }
+//.....................................................................
+//.....................................................................
+//.....................................................................
 
 export function getPreviousRhsState(state: GlobalState): RhsState {
+   // console.log("state.views.rhs.previousRhsStates    =  "+JSON.stringify(state.views.rhs.previousRhsStates))
+   // console.log("state.views.rhs.   = "+JSON.stringify(state.views.rhs))
+
     if (state.views.rhs.previousRhsStates === null || state.views.rhs.previousRhsStates.length === 0) {
         return null;
     }
